@@ -82,32 +82,32 @@ use Illuminate\Support\Facades\Route;
 
 
 
-Route::get('/', function ()  {
+Route::get('/', function () {
   return redirect()->route('tasks.index');
 });
 
 
 
-Route::get('/tasks', function ()  {
-    return view('index', [
-        'tasks' => Task::latest()->get()
-        //optional to get only compeletd task
-        //'tasks' => \App\Models\Task::latest()->where('completed',true)->get()
-    ]);
+Route::get('/tasks', function () {
+  return view('index', [
+    'tasks' => Task::latest()->get()
+    //optional to get only compeletd task
+    //'tasks' => \App\Models\Task::latest()->where('completed',true)->get()
+  ]);
 })->name('tasks.index');
 
 
-Route::view('/tasks/create','create')
-    ->name('tasks.create');
+Route::view('/tasks/create', 'create')
+  ->name('tasks.create');
 
-Route::get('/tasks/{id}', function ($id)  {
+Route::get('/tasks/{id}', function ($id) {
   return view('show', [
     'task' => Task::findOrFail($id)
   ]);
 })->name('tasks.show');
 
- 
-Route::post('/tasks', function(Request $request) {
+
+Route::post('/tasks', function (Request $request) {
   $data = $request->validate([
     'title' => 'required|max:255',
     'description' => 'required',
@@ -121,8 +121,10 @@ Route::post('/tasks', function(Request $request) {
 
   $task->save();
 
-  return redirect()->route('tasks.show', ['id'=> $task->id]);
-})->name('tasks.store');
+  return redirect()->route(route: 'tasks.show', parameters: ['id' => $task->id])
+    ->with(key: 'success', value: 'Task created successfully');
+    
+})->name(name: 'tasks.store');
 
 ////Before seciton 19 using this below ///
 // Route::get('/tasks', function () use ($tasks) {
@@ -159,5 +161,5 @@ Route::post('/tasks', function(Request $request) {
 // });
 
 Route::fallback(function () {
-    return 'still got somewhere!';
+  return 'still got somewhere!';
 });
