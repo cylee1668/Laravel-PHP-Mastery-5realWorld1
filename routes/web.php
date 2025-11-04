@@ -1,7 +1,9 @@
 <?php
 
 //use GuzzleHttp\Psr7\Response;
+use GuzzleHttp\Psr7\Request as GuzzleRequest;
 use Illuminate\Http\Response;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -93,14 +95,19 @@ Route::get('/tasks', function () use ($tasks) {
 })->name('tasks.index');
 
 
+Route::view('/tasks/create','create')
+    ->name('tasks.create');
+
 Route::get('/tasks/{id}', function ($id)  {
   return view('show', [
     'task' => \App\Models\Task::findOrFail($id)
   ]);
 })->name('tasks.show');
 
-
-
+ 
+Route::post('/tasks', function(Request $request) {
+  dd($request->all());
+})->name('tasks.store');
 
 ////Before seciton 19 using this below ///
 // Route::get('/tasks', function () use ($tasks) {
