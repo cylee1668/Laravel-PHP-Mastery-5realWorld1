@@ -151,39 +151,12 @@ Route::put('/tasks/{task}', function (Task $task, TaskRequest $request) {
     ->with(key: 'success', value: 'Task updated successfully');
 })->name(name: 'tasks.update');
 
-////Before seciton 19 using this below ///
-// Route::get('/tasks', function () use ($tasks) {
-//     return view('index', [
-//         'tasks' => $tasks
-//     ]);
-// })->name('tasks.index');
+Route::delete('/task/{task}', function (Task $task) {
+  $task->delete();
 
-// Route::get('/tasks/{id}', function ($id) use($tasks) {
-//     $task = collect($tasks)->firstWhere('id', $id);
-
-//     if(!$task){
-//       abort(Response::HTTP_NOT_FOUND);
-//     }
-
-//     return view('show', ['task' => $task]);
-// })->name('tasks.show');
-////Before seciton 19 using this above ///
-
-
-
-
-
-// Route::get('/hello', function () {
-//     return 'Hello';
-// })->name('hello');
-
-// Route::get('/hallo', function () {
-//     return redirect()->route('hello');
-// });
-
-// Route::get('/greet/{name}', function ($name) {
-//     return 'Hello ' . $name . '!';
-// });
+  return redirect()->route(route: 'tasks.index')
+    ->with(key: 'success', value: 'Task deleted successfully!');
+})->name('task.destory');
 
 Route::fallback(function () {
   return 'still got somewhere!';
