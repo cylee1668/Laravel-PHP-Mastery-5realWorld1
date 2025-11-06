@@ -91,7 +91,7 @@ Route::get('/', function () {
 
 Route::get('/tasks', function () {
   return view('index', [
-    'tasks' => Task::latest()->get()
+    'tasks' => Task::latest()->paginate(10)
     //optional to get only compeletd task
     //'tasks' => \App\Models\Task::latest()->where('completed',true)->get()
   ]);
